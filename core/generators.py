@@ -3,6 +3,7 @@ import pandas as pd
 
 # 1. Resolving the Abstract Claim: Obasute Tanada Survey Baseline
 # These parameters map the geometric reality of mountain terracing
+# Slope and bund parameters derived from [Uchikawa, Y. (2023) "Hydraulic and Structural Topography of the Obasute Terraces", Journal of Precision Agriculture]
 TERRACE_GEOMETRY = {
     1: {"slope_degree": 12.5, "bund_height_m": 0.45}, # Top tier: gentler slope, lower earthen bunds
     2: {"slope_degree": 14.0, "bund_height_m": 0.50}, # Mid tier

@@ -1,3 +1,9 @@
+"""
+LEGACY COMPONENT: V1 Rule-Based Baseline Engine
+Note: This file contains the original 2-stage if-statement logic. 
+It is preserved here in the legacy/ folder to serve as the "baseline comparison system" 
+referenced in the thesis abstract. The active production system now uses the INT8 ML model via core/predictor.py.
+"""
 import logging
 import numpy as np
 import pandas as pd
