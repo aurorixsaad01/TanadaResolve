@@ -9,6 +9,8 @@ ai_engine = EdgeAIPredictor()
 # Our live telemetry state
 active_payload = {
     "terrace_elevation": 2,
+    "slope_degree": 14.0,      # ADDED
+    "bund_height_m": 0.50,     # ADDED
     "growth_stage": "heading",
     "weather_forecast": "sunny",
     "moisture_pct": 30.0,
@@ -48,6 +50,8 @@ while True:
         active_payload["weather_forecast"] = "heavy_rain"
         active_payload["moisture_pct"] = 45.0
         active_payload["ec_ds_m"] = 0.2
+        active_payload["slope_degree"] = 12.5 # Added
+        active_payload["bund_height_m"] = 0.45 # Added
         print("[SUCCESS] Cascade conditions met. Press 1 to evaluate.")
 
     else:

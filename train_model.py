@@ -27,7 +27,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # 3. The ColumnTransformer (Fixed the Encoding Trap)
 print("[3/6] Applying One-Hot Encoding and Standard Scaling...")
 categorical_features = ["growth_stage", "weather_forecast"]
-numerical_features = ["terrace_elevation", "moisture_pct", "acoustic_velocity", "ec_ds_m", "temperature_c", "humidity_pct"]
+numerical_features = ["terrace_elevation", "slope_degree", "bund_height_m", "moisture_pct", "acoustic_velocity", "ec_ds_m", "temperature_c", "humidity_pct"]
 
 # This bundles our preprocessing into one clean pipeline we can save later
 preprocessor = ColumnTransformer(
