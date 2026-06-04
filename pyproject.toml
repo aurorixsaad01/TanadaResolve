@@ -1,0 +1,12 @@
+[project]
+name = "tanadaresolve"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "numpy>=2.4.6",
+    "pandas>=3.0.3",
+    "scikit-learn>=1.9.0",
+    "tensorflow>=2.21.0",
+]
