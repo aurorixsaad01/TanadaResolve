@@ -42,8 +42,17 @@ class EdgeAIPredictor:
         self.interpreter.set_tensor(self.input_details['index'], int8_input)
         self.interpreter.invoke()
         
-        # Step 4: Read Output Probabilities & Decode
+        # Step 4: Read Output Probabilities & Decode INT8 back to Float
         output_data = self.interpreter.get_tensor(self.output_details['index'])[0]
         predicted_class = np.argmax(output_data)
         
-        return self.class_names[predicted_class]
+        # TFLite INT8 outputs must be de-quantized to get real [0.0 - 1.0] probabilities
+        out_scale, out_zero = self.output_details['quantization']
+        if out_scale > 0:
+            probabilities = (output_data.astype(np.float32) - out_zero) * out_scale
+        else:
+            probabilities = output_data.astype(np.float32)
+            
+        confidence_pct = probabilities[predicted_class] * 100.0
+        
+        return self.class_names[predicted_class], round(float(confidence_pct), 2)
