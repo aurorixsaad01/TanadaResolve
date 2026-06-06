@@ -322,7 +322,7 @@ This project targets the graduate research agenda of Shinshu University's Facult
 - **Prof. UCHIKAWA Yoshiyuki** (Rural Planning Laboratory) — terraced paddy conservation, cascade hydraulic management, Obasute Tanada field studies, land abandonment prevention
 - **Prof. HAMANO Mitsuru** — AI + GIS + DEM for paddy ridge detection and hilly-area precision agriculture
 
-TanadaResolve is intended as a proof-of-work baseline demonstrating edge-AI design capability, multi-sensor physics reasoning, and synthetic dataset methodology — positioned as a "Prepared Novice" portfolio piece for MEXT University Recommendation 2027 enrollment.
+TanadaResolve is intended as a proof-of-work baseline demonstrating edge-AI design capability, multi-sensor physics reasoning, and synthetic dataset methodology — positioned as a "Prepared Novice" portfolio piece for University Recommendation 2027 enrollment.
 
 ---
 
