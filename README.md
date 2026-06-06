@@ -32,7 +32,7 @@ Phase 3 — INT8 Quantization & Edge Deployment
                          →  firmware/tanada_inference.ino  (ESP32 scaffold)
 ```
 
-Each phase is independently reproducible. All artifacts are version-controlled except project tree lists tanada_base_model.keras and preprocessor.pkl these are re-generated locally after cloning by running the three phases.
+Each phase is independently reproducible. All artifacts are version-controlled "tanada_base_model.keras and preprocessor.pkl are not tracked — run the three phases to generate them locally."
 
 ---
 
