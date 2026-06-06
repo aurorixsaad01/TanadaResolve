@@ -34,6 +34,18 @@ class TestEdgeAIPredictor(unittest.TestCase):
         result = self.predictor.infer(payload)[0]
         self.assertEqual(result, "SENSOR_CONTRADICTION")
 
+    def test_thermodynamic_decoupling(self):
+        """Asserts the AI catches a cold-temperature + high-velocity physical impossibility."""
+        payload = {
+            "terrace_elevation": 2, "slope_degree": 14.0, "bund_height_m": 0.50,
+            "growth_stage": "heading", "weather_forecast": "sunny",
+            "moisture_pct": 28.0, "acoustic_velocity": 1558.0,
+            "ec_ds_m": 1.2, "temperature_c": 18.0, "humidity_pct": 60.0
+        }
+        # The predictor returns a tuple: (Label, Confidence). We grab [0] for the label.
+        result = self.predictor.infer(payload)[0]
+        self.assertEqual(result, "SENSOR_CONTRADICTION")    
+
     def test_cascade_risk(self):
         """Asserts the AI catches an upstream Top-Tier flood washing away nutrients."""
         payload = {

@@ -2,7 +2,7 @@ from core.generators import generate_tanadasynth
 
 print("Initializing TanadaSynth Generation...")
 
-# Generating 10.000 rows of physics-bound telemetry
+# Generating 10,000 rows of physics-bound telemetry
 df = generate_tanadasynth(10000)
 
 # Save to a CSV file in root folder
