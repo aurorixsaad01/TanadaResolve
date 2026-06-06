@@ -53,10 +53,16 @@ void setup() {
 }
 
 void loop() {
-  // Read from physical sensors via GPIO/I2C
-  // Float to INT8 Quantization logic would be applied here
+  // TODO: Read from physical sensors via GPIO/I2C/AnalogRead
+  // TODO: The input tensor requires 17 values (Numerical sensors + One-Hot Encoded arrays)
+  // Ensure all 17 indices are initialized to prevent unallocated memory corruption.
   
-  // Example dummy quantized data (representing 5 scaled sensors + OneHot arrays)
+  // Scaffold: Initialize all inputs to 0 (Zero-point)
+  for(int i = 0; i < 17; i++) {
+      input->data.int8[i] = 0; 
+  }
+
+  // Example Scaffold Injections:
   input->data.int8[0] = 56;  // Scaled Moisture
   input->data.int8[1] = 112; // Scaled Velocity
   
@@ -72,6 +78,17 @@ void loop() {
   int8_t contradiction_score = output->data.int8[1];
   int8_t cascade_score = output->data.int8[2];
 
-  // Logic to trigger physical relay/alarm based on highest score
+  // Argmax decision logic
+  int8_t scores[] = {nominal_score, contradiction_score, cascade_score};
+  int max_idx = 0;
+  for(int i = 1; i < 3; i++) {
+      if(scores[i] > scores[max_idx]) {
+          max_idx = i;
+      }
+  }
+
+  Serial.print("Predicted Class Index: ");
+  Serial.println(max_idx);
+
   delay(5000); // Poll sensors every 5 seconds
 }

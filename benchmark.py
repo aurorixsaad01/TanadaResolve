@@ -59,7 +59,7 @@ for i in range(len(X_test)):
     baseline_predictions.append(legacy_baseline_predict(row_data))
     
     # Edge AI Prediction
-    ai_predictions.append(ai_engine.infer(row_data))
+    ai_predictions.append(ai_engine.infer(row_data)[0])
 
 # 4. Generate the Final Academic Tables
 print("==========================================================")

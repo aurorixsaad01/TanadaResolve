@@ -46,15 +46,19 @@ def generate_tanadasynth(num_records):
         anomaly_trigger = random.random()
         
         if anomaly_trigger > 0.70:
-            if stage == "heading" and anomaly_trigger > 0.85:
+            if stage == "heading" and anomaly_trigger > 0.90:
+                # NEW: Pure Thermodynamic Decoupling Anomaly
+                # Cold water (20C) physically cannot produce high acoustic velocity (1560m/s)
+                base_temp = random.uniform(15.0, 22.0)
+                base_velocity = random.uniform(1550.0, 1565.0) 
+                label = 1
+            elif stage == "heading" and anomaly_trigger > 0.80:
                 base_temp = random.uniform(35.0, 42.0)
                 base_humidity = random.uniform(10.0, 25.0)
-                # Intentionally breaking the thermodynamic law for the anomaly
                 base_velocity = random.uniform(1545.0, 1560.0) 
                 label = 1
             else:
                 base_moisture = random.uniform(2.0, 8.0)
-                # Intentionally breaking the thermodynamic law for the anomaly
                 base_velocity = random.uniform(1545.0, 1560.0) 
                 label = 1
             

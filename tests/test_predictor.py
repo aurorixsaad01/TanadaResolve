@@ -20,7 +20,7 @@ class TestEdgeAIPredictor(unittest.TestCase):
             "moisture_pct": 30.0, "acoustic_velocity": 1520.0,
             "ec_ds_m": 1.2, "temperature_c": 25.0, "humidity_pct": 60.0
         }
-        result = self.predictor.infer(payload)
+        result = self.predictor.infer(payload)[0]
         self.assertEqual(result, "NOMINAL")
 
     def test_sensor_contradiction(self):
@@ -31,7 +31,7 @@ class TestEdgeAIPredictor(unittest.TestCase):
             "moisture_pct": 5.0, "acoustic_velocity": 1555.0,
             "ec_ds_m": 1.2, "temperature_c": 25.0, "humidity_pct": 60.0
         }
-        result = self.predictor.infer(payload)
+        result = self.predictor.infer(payload)[0]
         self.assertEqual(result, "SENSOR_CONTRADICTION")
 
     def test_cascade_risk(self):
@@ -42,7 +42,7 @@ class TestEdgeAIPredictor(unittest.TestCase):
             "moisture_pct": 45.0, "acoustic_velocity": 1520.0,
             "ec_ds_m": 0.2, "temperature_c": 25.0, "humidity_pct": 60.0
         }
-        result = self.predictor.infer(payload)
+        result = self.predictor.infer(payload)[0]
         self.assertEqual(result, "CASCADE_RISK")
 
 if __name__ == '__main__':

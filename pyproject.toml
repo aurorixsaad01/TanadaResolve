@@ -1,7 +1,7 @@
 [project]
 name = "tanadaresolve"
 version = "0.1.0"
-description = "Add your description here"
+description = "TinyML Multi-Sensor Fusion for Terraced Rice Paddies"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 dependencies = [

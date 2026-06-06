@@ -2,7 +2,7 @@ import numpy as np
 
 def quantize_to_float32(raw_matrix):
     """
-    Reduces the meomory footprint of incoming 64-bit telemetry matrices
+    Reduces the memory footprint of incoming 64-bit telemetry matrices
     by reducing them to 32-bit floats for Edge AI microcontrollers.
     """
     if not isinstance(raw_matrix, np.ndarray):
@@ -13,7 +13,7 @@ def quantize_to_float32(raw_matrix):
 def calculate_memory_savings(raw_matrix):
     """
     Returns a dictionary detailing the exact byte reduction
-    acheved via optimization.
+    achieved via optimization.
     """
     original_bytes = raw_matrix.nbytes
     optimized_bytes = quantize_to_float32(raw_matrix).nbytes

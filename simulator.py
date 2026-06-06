@@ -1,5 +1,6 @@
 import numpy as np
 from core.predictor import EdgeAIPredictor
+from core.gdd import infer_growth_stage
 
 print("=== TanadaResolve Edge AI Simulator ===")   
 
@@ -22,7 +23,7 @@ active_payload = {
 
 while True:
     print(f"\n[INFO] Current Stage: {active_payload['growth_stage'].upper()} | Weather: {active_payload['weather_forecast'].upper()}")
-    print("[MENU] 1: Run AI Inference | 2: Inject Sensor Contradiction | 3: Inject Cascade Risk | Type 'exit' to quit")
+    print("[MENU] 1: Run AI Inference | 2: Inject Sensor Contradiction | 3: Inject Cascade Risk | 4: Update GDD Stage | Type 'exit' to quit")
     choice = input("Enter your choice: ").strip().lower()
 
     if choice == "exit":
@@ -34,9 +35,9 @@ while True:
         print(f"Data: {active_payload}")
         
         # The AI Inference Call!
-        prediction = ai_engine.infer(active_payload)
+        prediction, confidence = ai_engine.infer(active_payload)
         
-        print(f"\n[AI CLASSIFICATION] >>> {prediction} <<<")
+        print(f"\n[AI CLASSIFICATION] >>> {prediction} (Confidence: {confidence}% <<<")
 
     elif choice == "2":
         print("\n[ATTACK] Injecting a physical impossibility (Drought moisture but flooded acoustic velocity)...")
@@ -53,6 +54,16 @@ while True:
         active_payload["slope_degree"] = 12.5 # Added
         active_payload["bund_height_m"] = 0.45 # Added
         print("[SUCCESS] Cascade conditions met. Press 1 to evaluate.")
+
+    elif choice == "4":
+        print("\n[BIOLOGY] Enter cumulative Growing Degree Days (GDD) since planting:")
+        try:
+            gdd_val = float(input("GDD: "))
+            new_stage = infer_growth_stage(gdd_val)
+            active_payload["growth_stage"] = new_stage
+            print(f"[SUCCESS] Biologically inferred growth stage: {new_stage.upper()}")
+        except ValueError:
+            print("[ERROR] Invalid GDD input.")    
 
     else:
         print("\n[ERROR] Invalid option selection.")
