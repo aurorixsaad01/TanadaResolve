@@ -32,7 +32,7 @@ Phase 3 — INT8 Quantization & Edge Deployment
                          →  firmware/tanada_inference.ino  (ESP32 scaffold)
 ```
 
-Each phase is independently reproducible. All artifacts are version-controlled.
+Each phase is independently reproducible. All artifacts are version-controlled except project tree lists tanada_base_model.keras and preprocessor.pkl these are re-generated locally after cloning by running the three phases.
 
 ---
 
@@ -117,7 +117,7 @@ Input (17 features after One-Hot Encoding)
 
 **Training configuration:**
 - 80/20 stratified train/test split (`random_state=42`)
-- `class_weight='balanced'` — CASCADE_RISK weighted ~4.6× to prevent minority class collapse
+- `class_weight='balanced'` — CASCADE_RISK weighted ~5.0× to prevent minority class collapse
 - 15 epochs, Adam optimizer, `sparse_categorical_crossentropy`
 - Preprocessing fitted on training data only (no data leakage)
 
@@ -151,7 +151,7 @@ The 0.05% accuracy cost of INT8 quantization is within the acceptable tolerance 
 
 ### Feature Importance (Ablation Study)
 
-Accuracy drop when each sensor is zeroed out (500-sample subset):
+Accuracy drop when each sensor is zeroed out (1000-sample subset):
 
 | Sensor | Accuracy Drop | Interpretation |
 |---|---|---|
@@ -165,7 +165,7 @@ Accuracy drop when each sensor is zeroed out (500-sample subset):
 
 ### Baseline Comparison
 
-The thesis benchmark pits the 5-sensor Edge-AI against a legacy single-sensor moisture-threshold system (equivalent to the original `engine.py`):
+"benchmark.py implements a 3-class moisture-threshold baseline inspired by engine.py's logic, extended to include CASCADE_RISK detection.":
 
 ```
 System 1 — Legacy Moisture Threshold (Single Sensor):
