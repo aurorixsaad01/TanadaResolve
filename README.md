@@ -341,5 +341,4 @@ MIT License — open for academic use, extension, and adaptation.
 
 ---
 
-*TanadaResolve v0.1.0 — Saad Ansari, 2026*  
-*Ajeenkya DY Patil University, Pune · URN: 2022-B-30052005*
+*TanadaResolve v0.1.0 — Saad Ansari, 2026*
