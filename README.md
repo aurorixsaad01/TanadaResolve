@@ -161,7 +161,7 @@ Accuracy drop when each sensor is zeroed out (500-sample subset):
 | `humidity_pct` | −3.2% | Drought stress signal |
 | `temperature_c` | +0.6% | Low direct impact in current form |
 
-`temperature_c` slightly decreases accuracy when present because its discriminative value depends on the temperature-velocity coupling — a relationship the current training data encodes only partially. This is a documented limitation and a candidate for future improvement.
+`temperature_c` shows a slight accuracy increase when removed because the model relies on `acoustic_velocity` as the primary contradiction signal. After StandardScaler normalization, zeroing temperature to 0.0 eliminates a feature that in NOMINAL records is positively correlated with velocity (via the thermodynamic coupling). This removes mild co-correlation noise from the input and slightly clarifies the contradiction boundary. The primary diagnostic value of temperature is indirect — it defines what acoustic velocity *should* be, which the model learns as a background constraint rather than a direct discriminator.
 
 ### Baseline Comparison
 
@@ -197,12 +197,12 @@ TanadaResolve/
 │   └── tanada_inference.ino      # ESP32 TFLite Micro inference scaffold
 │
 ├── tests/
-│   └── test_predictor.py         # Unit tests for EdgeAIPredictor (3 test cases)
+│   └── test_predictor.py         # Unit tests for EdgeAIPredictor (4 test cases)
 │
 ├── generate_data.py              # Phase 1: Run TanadaSynth generation → tanadasynth.csv
 ├── train_model.py                # Phase 2: Train MLP → tanada_base_model.keras
 ├── quantize_model.py             # Phase 3: INT8 quantize → tanada_quantized_int8.tflite
-├── simulator.py                  # Interactive inference terminal (3 scenarios)
+├── simulator.py                  # Interactive inference terminal (4 options: infer, inject, cascade, GDD stage)
 ├── benchmark.py                  # Legacy vs. AI accuracy head-to-head comparison
 ├── ablation_study.py             # Per-sensor feature importance measurement
 │
@@ -249,9 +249,10 @@ python quantize_model.py
 **Run the interactive simulator:**
 ```bash
 python simulator.py
-# Option 1: Run AI inference on current telemetry payload
+# Option 1: Run AI inference on current telemetry payload (returns class + confidence%)
 # Option 2: Inject a sensor contradiction (dry soil + flooded acoustics)
-# Option 3: Inject a cascade risk (upstream Tier 1 saturation)
+# Option 3: Inject a cascade risk (upstream Tier 1 saturation + EC dilution)
+# Option 4: Update growth stage from cumulative GDD input (biological automation)
 ```
 
 **Run the benchmark (AI vs. legacy threshold system):**
@@ -306,11 +307,11 @@ The quantized `.tflite` model is deployable on ESP32 hardware via TensorFlow Lit
 
 ## Documented Limitations
 
-**Temperature-velocity blind spot:** A physically impossible combination of low temperature (22°C) with high acoustic velocity (1,552 m/s) — where temperature cannot account for the velocity — is not currently flagged as SENSOR_CONTRADICTION. The model uses temperature as context for *explaining* high velocities, but was not trained to detect temperature-velocity *decoupling* as a standalone anomaly type. Adding this as a third CONTRADICTION subtype is a planned extension.
+**Synthetic data only:** TanadaSynth was generated with physics-grounded parameters from published Tanada survey literature. No real-world sensor deployment has occurred. Model generalisation to actual field conditions at Obasute or Inakura is untested — this is the primary open research question and a target for future lab collaboration.
 
-**Synthetic data only:** TanadaSynth was generated with physics-grounded parameters from published Tanada survey literature. No real-world sensor deployment has occurred. Model generalization to actual field conditions is untested.
+**GDD requires cumulative manual input:** The simulator's Option 4 infers growth stage from cumulative GDD, but this requires the operator to supply the total accumulated GDD since transplanting. The system does not yet automatically accumulate GDD from a continuous temperature sensor log. Full biological automation would require a persistent temperature history store on the ESP32.
 
-**Static growth stage input:** The simulator requires manual growth stage selection. Integration with `gdd.py` for automatic stage inference from temperature history is implemented in `core/gdd.py` but not yet wired to the inference pipeline.
+**Firmware is a hardware scaffold:** `tanada_inference.ino` demonstrates the complete TFLM initialisation sequence but does not yet include physical I2C/ADC sensor reads, input quantisation arithmetic in `loop()`, or relay/alarm output logic. `AllOpsResolver` should be replaced with `MicroMutableOpResolver<3>` before deployment to recover ~40–60 KB of flash. The `.tflite` model must also be converted to a C byte array via `xxd -i tanada_quantized_int8.tflite > model_data.h` before flashing.
 
 ---
 
@@ -341,3 +342,4 @@ MIT License — open for academic use, extension, and adaptation.
 ---
 
 *TanadaResolve v0.1.0 — Saad Ansari, 2026*  
+*Ajeenkya DY Patil University, Pune · URN: 2022-B-30052005*

@@ -37,7 +37,7 @@ while True:
         # The AI Inference Call!
         prediction, confidence = ai_engine.infer(active_payload)
         
-        print(f"\n[AI CLASSIFICATION] >>> {prediction} (Confidence: {confidence})% <<<")
+        print(f"\n[AI CLASSIFICATION] >>> {prediction} (Confidence: {confidence}%) <<<")
 
     elif choice == "2":
         print("\n[ATTACK] Injecting a physical impossibility (Drought moisture but flooded acoustic velocity)...")
